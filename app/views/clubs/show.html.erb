@@ -5,10 +5,12 @@
 
 <p>
   <strong>Website:</strong>
-  <%= @club.website %>
+  <%= link_to @club.website %>
 </p>
 
 <p>
   <strong>Contact:</strong>
   <%= @club.contact %>
 </p>
+
+<%= link_to 'Back', clubs_path %>
