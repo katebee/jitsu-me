@@ -1,0 +1,17 @@
+<h1>London Clubs</h1>
+
+<table>
+  <tr>
+    <th>Club</th>
+    <th>Website</th>
+    <th>Contact</th>
+  </tr>
+
+  <% @clubs.each do |club| %>
+    <tr>
+      <td><%= club.name %></td>
+      <td><%= club.website %></td>
+      <td><%= club.contact %></td>
+    </tr>
+  <% end %>
+</table>
