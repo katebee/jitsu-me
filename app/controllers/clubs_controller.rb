@@ -1,4 +1,8 @@
 class ClubsController < ApplicationController
-  def new
+  def create
+    @club = Club.new(params[:club])
+
+    @club.save
+    redirect_to @club
   end
 end
