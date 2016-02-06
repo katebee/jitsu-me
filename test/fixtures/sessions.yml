@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  day_of_week: MyString
+  start_time: 2016-02-06 01:29:38
+  end_time: 2016-02-06 01:29:38
+  location_lat: MyString
+  location_lng: MyString
+  location_description: MyText
+  club_id: 
+
+two:
+  day_of_week: MyString
+  start_time: 2016-02-06 01:29:38
+  end_time: 2016-02-06 01:29:38
+  location_lat: MyString
+  location_lng: MyString
+  location_description: MyText
+  club_id: 
