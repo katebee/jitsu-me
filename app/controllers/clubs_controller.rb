@@ -9,6 +9,11 @@ class ClubsController < ApplicationController
   end
 
   def new
+    @club = Club.new
+  end
+
+  def edit
+    @club = Club.find(params[:id])
   end
 
   def create
@@ -18,6 +23,16 @@ class ClubsController < ApplicationController
       redirect_to clubs_path
     else
       render 'new'
+    end
+  end
+
+  def update
+    @club = Club.find(params[:id])
+
+    if @club.update(club_params)
+      redirect_to clubs_path
+    else
+      render 'edit'
     end
   end
 
