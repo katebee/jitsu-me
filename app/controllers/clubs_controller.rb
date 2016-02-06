@@ -36,6 +36,13 @@ class ClubsController < ApplicationController
     end
   end
 
+  def destroy
+    @club = Club.find(params[:id])
+    @club.destroy
+
+    redirect_to clubs_path
+  end
+
   private
   def club_params
     params.require(:club).permit(:name, :website, :contact)
