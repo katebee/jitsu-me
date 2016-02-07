@@ -7,3 +7,9 @@
   <strong>Location:</strong>
   <%= session.location_description %>
 </p>
+
+<p>
+  <%= link_to 'Delete', [session.club, session],
+               method: :delete,
+               data: { confirm: 'Are you sure?' } %>
+</p>
