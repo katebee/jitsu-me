@@ -1,0 +1,13 @@
+<%= form_for([@club, @club.sessions.build]) do |f| %>
+  <p>
+    <%= f.label :day_of_week %><br>
+    <%= f.text_field :day_of_week %>
+  </p>
+  <p>
+    <%= f.label :location %><br>
+    <%= f.text_area :location_description %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
