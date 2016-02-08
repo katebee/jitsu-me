@@ -1,4 +1,8 @@
 class SessionsController < ApplicationController
+
+  http_basic_authenticate_with name: "admin", password: "secret",
+  only: :destroy
+
   def create
     @club = Club.find(params[:club_id])
     @session = @club.sessions.create(session_params)

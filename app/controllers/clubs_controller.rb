@@ -1,5 +1,8 @@
 class ClubsController < ApplicationController
 
+  http_basic_authenticate_with name: "admin", password: "secret",
+  except: [:index, :show]
+
   def index
     @clubs = Club.all
   end
