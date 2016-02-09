@@ -1,7 +1,11 @@
 <div class="row">
-  <div id="map-container" class="col-md-8" style="padding: 0; margin: 0; height: 400px;">
+  <div class="col-md-4">
+    <button id="jitsu-me-button" class="btn btn-lg">JITSU ME</button>
+  </div>
+  <div id="map-container" class="col-md-8" style="padding: 0; margin: 0; height: 600px;">
     <div id="map" style="height: 100%;"></div>
   </div><!-- end of map column-->
+
 </div><!-- end of row-->
 
 <h1>Find Jitsu</h1>
@@ -14,10 +18,8 @@
 
 <%= link_to 'Sessions and Events', controller: 'events' %>
 
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
 <div id="map" style="width: 600px; height: 400px"></div>
 
-	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 	<script>
 
 		var map = L.map('map').setView([51.505, -0.09], 13);
@@ -30,6 +32,13 @@
 			id: 'mapbox.streets'
 		}).addTo(map);
 
-		map.on('click', onMapClick);
+    $('#jitsu-me-button').on('click', function(){
+      map.locate({setView: true, maxZoom: 18});
+    });
+
+    map.on('locationfound', onLocationFound);
+    function onLocationFound(e) {
+      L.marker(e.latlng).addTo(map);
+    }
 
 	</script>
