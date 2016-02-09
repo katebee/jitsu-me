@@ -17,5 +17,6 @@
 
 //= require moment
 //= require fullcalendar
+//= require leaflet
 
 //= require_tree .
