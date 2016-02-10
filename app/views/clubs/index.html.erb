@@ -5,6 +5,9 @@
     <th>Club</th>
     <th>Website</th>
     <th>Contact</th>
+    <th>location_lat</th>
+    <th>location_lng</th>
+    <th>postcode</th>
   </tr>
 
   <% @clubs.each do |club| %>
@@ -12,6 +15,9 @@
       <td><%= club.name %></td>
       <td><%= club.website %></td>
       <td><%= club.contact %></td>
+      <td><%= club.location_lat %></td>
+      <td><%= club.location_lng %></td>
+      <td><%= club.postcode %></td>
       <td><%= link_to 'Show', club_path(club) %></td>
       <td><%= link_to 'Edit', edit_club_path(club) %></td>
       <td><%= link_to 'Destroy', club_path(club),
