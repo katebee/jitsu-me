@@ -35,7 +35,7 @@
     $(document).ready(function(){
       $.get("/clubs.json", function(data){
         data.map(function(club) {
-          L.marker([club.location_lat, club.location_lng]).addTo(map);
+          L.marker([club.location_lat, club.location_lng]).addTo(map).bindPopup(club.name);
         })
       })
     });
@@ -44,9 +44,16 @@
       map.locate({setView: true, maxZoom: 18});
     });
 
-    map.on('locationfound', onLocationFound);
     function onLocationFound(e) {
-      L.marker(e.latlng).addTo(map);
+      L.marker(e.latlng, {draggable: true}).addTo(map);
     }
+
+    function onLocationError(e) {
+    map.setView([51.505, -0.09], 10);
+    alert(e.message);
+    }
+
+    map.on('locationfound', onLocationFound);
+    map.on('locationerror', onLocationError)
 
 	</script>
