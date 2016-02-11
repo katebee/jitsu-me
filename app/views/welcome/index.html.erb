@@ -32,6 +32,14 @@
 			id: 'mapbox.streets'
 		}).addTo(map);
 
+    $(document).ready(function(){
+      $.get("/clubs.json", function(data){
+        data.map(function(club) {
+          L.marker([club.location_lat, club.location_lng]).addTo(map);
+        })
+      })
+    });
+
     $('#jitsu-me-button').on('click', function(){
       map.locate({setView: true, maxZoom: 18});
     });
