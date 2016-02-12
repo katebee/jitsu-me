@@ -26,6 +26,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'momentjs-rails'
 gem 'fullcalendar-rails'
 gem 'leaflet-rails'
+# A man is not dead while his name is still spoken
+gem 'rack-pratchett'
 
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'autoprefixer-rails'
