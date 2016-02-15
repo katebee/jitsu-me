@@ -20,13 +20,15 @@ clubxml.css("marker").each do |response_node|
 end
 
 # Experiments with storing session data:
+name_grab = sessionxml.at_css("title").to_s
 titlebox_grab = sessionxml.css("#titlebox2").last
 strong_grab = titlebox_grab.css("strong").to_s
 day_of_week = strong_grab[/(?<=<strong>)[a-zA-Z]{3}/]
 start_time = strong_grab[/(?<=,\s)\d{2}:\d{2}/]
 end_time = strong_grab[/(?<=\-\s)\d{2}:\d{2}/]
+club_name = name_grab[/(?<=\-\s)(.*)Club/]
 
 # Populate the club table:
-Event.create(title: "Demo Event 1", description: day_of_week, start_time: start_time, end_time: end_time)
-Event.create(title: "Demo Event 2", description: day_of_week, start_time: start_time, end_time: end_time)
-Event.create(title: "Demo Event 3", description: day_of_week, start_time: start_time, end_time: end_time)
+Event.create(title: club_name, description: day_of_week, start_time: start_time, end_time: end_time)
+Event.create(title: club_name, description: day_of_week, start_time: start_time, end_time: end_time)
+Event.create(title: club_name, description: day_of_week, start_time: start_time, end_time: end_time)
