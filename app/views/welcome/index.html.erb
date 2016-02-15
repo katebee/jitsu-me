@@ -1,21 +1,20 @@
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-3">
+
+    <h1>Find Jitsu</h1>
+
+    <h3>Welcome to the London Jitsu club finder</h3>
+
+    <p>Find which clubs are near you and training today</p>
+
     <button id="jitsu-me-button" class="btn btn-lg">JITSU ME</button>
-  </div>
-  <div id="map-container" class="col-md-8" style="padding: 0; margin: 0; height: 600px;">
-    <div id="map" style="height: 100%;"></div>
+
+  </div><!-- end of input column-->
+
+  <div id="map-container" class="col-md-9">
+
+    <div id="map"></div>
+
   </div><!-- end of map column-->
 
 </div><!-- end of row-->
-
-<h1>Find Jitsu</h1>
-
-<h3>Welcome to the London Jitsu club finder</h3>
-
-<p>Find which clubs are near you and training today</p>
-
-<%= link_to 'Jitsu Clubs', controller: 'clubs' %>
-
-<%= link_to 'Sessions and Events', controller: 'events' %>
-
-<div id="map" style="width: 600px; height: 400px"></div>

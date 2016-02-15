@@ -1,3 +1,45 @@
 // Place all the styles related to the welcome controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$font-stack: Helvetica, sans-serif;
+
+$colour-red: rgb(132,7,5);
+$colour-grey: rgb(68,68,68);
+$colour-white: rgb(252,252,252);
+
+body {
+  font: 100% $font-stack;
+  color: $colour-grey;
+}
+
+.navbar {
+  background-color: $colour-red;
+  border-bottom-width: 5px;
+  border-bottom: thick solid rgb(102,7,5);
+  height: 7em;
+  margin: 0;
+  z-index: 500;
+}
+
+.navbar-inverse .navbar-brand {
+  color: $colour-white;
+}
+
+#jitsu-me-button {
+  color: $colour-white;
+  background-color: $colour-red;
+  box-shadow: 7px 7px 5px $colour-grey;
+  width: 10em;
+  height: 5em;
+}
+
+#map-container {
+  padding: 0;
+  margin: 0;
+  height: 90em;
+
+  #map {
+    height: 100%;
+  }
+}
