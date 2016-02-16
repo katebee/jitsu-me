@@ -3,6 +3,28 @@
 
 require 'open-uri'
 
+# Format day
+def day_string_to_index(string)
+  case string
+    when 'Sun'
+      return 0
+    when 'Mon'
+      return 1
+    when 'Tue'
+      return 2
+    when 'Wed'
+      return 3
+    when 'Thu'
+      return 4
+    when 'Fri'
+      return 5
+    when 'Sat'
+      return 6
+    else
+      return 8
+  end
+end
+
 # Source and store data:
 club_location_doc = Nokogiri::XML(File.open("config/club_location.xml")) do |config|
   config.options = Nokogiri::XML::ParseOptions::STRICT | Nokogiri::XML::ParseOptions::NONET
@@ -44,6 +66,6 @@ club_url.each do |html_link|
     club_name = name_node[/(?<=\-\s)(.*)Club/]
 
     # Populate the club table:
-    Event.create(title: club_name, description: day_of_week, start_time: start_time, end_time: end_time)
+    Event.create(title: club_name, description: day_string_to_index(day_of_week), start_time: start_time, end_time: end_time)
   end
 end
