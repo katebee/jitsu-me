@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-$font-stack: Helvetica, sans-serif;
+$font-stack: 'Lato', helvetica, sans-serif;
 
 $colour-red: rgb(132,7,5);
 $colour-grey: rgb(68,68,68);
@@ -22,8 +22,30 @@ body {
   z-index: 500;
 }
 
+.nav {
+  color: $colour-white;
+  font-size: 1.2em;
+  position: absolute;
+  top: 50%;
+  right: 6em;
+  transform: translateY(-50%);
+}
+
+.navbar-inverse .navbar-nav > li > a {
+  color: $colour-white;
+  margin: 20px;
+  padding: 10px 25px 10px 25px;
+  border: 3px solid rgb(52,52,52);
+  background-color: $colour-grey;
+}
+
 .navbar-inverse .navbar-brand {
   color: $colour-white;
+  font-size: 3em;
+  font-weight: 700;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 #jitsu-me-button {
