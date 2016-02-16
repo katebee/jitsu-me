@@ -12,7 +12,7 @@ london_region_url = "http://www.jitsufoundation.org/Jiujitsu.asp?Page=jujitsu&re
 
 london_region_doc = Nokogiri::HTML(open(london_region_url))
 
-club_url_list = london_region_doc.css("div.RegionsClubs a.linkaaaaaa").map do |link|
+club_url = london_region_doc.css("div.RegionsClubs a.linkaaaaaa").map do |link|
   "http://www.jitsufoundation.org" + link["href"]
 end
 
@@ -27,18 +27,23 @@ end
 
 # Experiments with storing session data:
 
-club_url_list.each do |html_link|
+club_url.each do |html_link|
   club_page_doc = Nokogiri::HTML(open(html_link))
 
-  name_grab = club_page_doc.at_css("title").to_s
-  titlebox_grab = club_page_doc.css("#titlebox2").last
-  strong_grab = titlebox_grab.css("strong").to_s
-  day_of_week = strong_grab[/(?<=<strong>)[a-zA-Z]{3}/]
-  start_time = strong_grab[/(?<=,\s)\d{2}:\d{2}/]
-  end_time = strong_grab[/(?<=\-\s)\d{2}:\d{2}/]
-  club_name = name_grab[/(?<=\-\s)(.*)Club/]
+  # Get the name of the club
+  name_node = club_page_doc.at_css("title").to_s
 
-  # Populate the club table:
-  Event.create(title: club_name, description: day_of_week, start_time: start_time, end_time: end_time)
+  titlebox_node = club_page_doc.css("#titlebox2").last
+  strong_node = titlebox_node.css("strong")
 
+  strong_node.each do |session_node|
+    session_node = session_node.to_s
+    day_of_week = session_node[/(?<=<strong>)[a-zA-Z]{3}/]
+    start_time = session_node[/(?<=,\s)\d{2}:\d{2}/]
+    end_time = session_node[/(?<=\-\s)\d{2}:\d{2}/]
+    club_name = name_node[/(?<=\-\s)(.*)Club/]
+
+    # Populate the club table:
+    Event.create(title: club_name, description: day_of_week, start_time: start_time, end_time: end_time)
+  end
 end
