@@ -30,27 +30,7 @@ def tjf_club_url(club_name)
   return basic_url + club_name.gsub!(/\s/,'_')
 end
 
-# Source and store data:
-club_location_doc = Nokogiri::XML(File.open("config/club_location.xml")) do |config|
-  config.options = Nokogiri::XML::ParseOptions::STRICT | Nokogiri::XML::ParseOptions::NONET
-end
-
-london_region_url = "http://www.jitsufoundation.org/Jiujitsu.asp?Page=jujitsu&region=London"
-
-london_region_doc = Nokogiri::HTML(open(london_region_url))
-
-# Delete the current rows from the tables:
-Club.delete_all
-Event.delete_all
-
-# Populate the club table:
-club_location_doc.css("marker").each do |response_node|
-  Club.create(name: response_node["label"], website: tjf_club_url(response_node["label"]), location_lat: response_node["lat"], location_lng: response_node["lng"], postcode: response_node["Postcode"])
-end
-
-# Experiments with storing session data:
-
-club_url.each do |html_link|
+def get_club_sessions(html_link)
   club_page_doc = Nokogiri::HTML(open(html_link))
 
   # Get the name of the club
@@ -70,3 +50,28 @@ club_url.each do |html_link|
     Event.create(title: club_name, description: day_string_to_index(day_of_week), start_time: start_time, end_time: end_time)
   end
 end
+
+# Source and store data:
+club_location_doc = Nokogiri::XML(File.open("config/club_location.xml")) do |config|
+  config.options = Nokogiri::XML::ParseOptions::STRICT | Nokogiri::XML::ParseOptions::NONET
+end
+
+london_region_url = "http://www.jitsufoundation.org/Jiujitsu.asp?Page=jujitsu&region=London"
+
+london_region_doc = Nokogiri::HTML(open(london_region_url))
+
+# Delete the current rows from the tables:
+Club.delete_all
+Event.delete_all
+
+# Populate the club table:
+club_location_doc.css("marker").each do |response_node|
+  Club.create(name: response_node["label"], website: tjf_club_url(response_node["label"]), location_lat: response_node["lat"], location_lng: response_node["lng"], postcode: response_node["Postcode"])
+end
+
+Club.find_each do |club|
+  html_link = club.website
+  get_club_sessions(html_link)
+end
+
+# Experiments with storing session data:
