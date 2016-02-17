@@ -25,6 +25,11 @@ def day_string_to_index(string)
   end
 end
 
+def tjf_club_url(club_name)
+  basic_url = "http://www.jitsufoundation.org/Jiujitsu.asp?page=jujitsu_club&clubid="
+  return basic_url + club_name.gsub!(/\s/,'_')
+end
+
 # Source and store data:
 club_location_doc = Nokogiri::XML(File.open("config/club_location.xml")) do |config|
   config.options = Nokogiri::XML::ParseOptions::STRICT | Nokogiri::XML::ParseOptions::NONET
@@ -34,17 +39,13 @@ london_region_url = "http://www.jitsufoundation.org/Jiujitsu.asp?Page=jujitsu&re
 
 london_region_doc = Nokogiri::HTML(open(london_region_url))
 
-club_url = london_region_doc.css("div.RegionsClubs a.linkaaaaaa").map do |link|
-  "http://www.jitsufoundation.org" + link["href"]
-end
-
 # Delete the current rows from the tables:
 Club.delete_all
 Event.delete_all
 
 # Populate the club table:
 club_location_doc.css("marker").each do |response_node|
-  Club.create(name: response_node["label"], location_lat: response_node["lat"], location_lng: response_node["lng"], postcode: response_node["Postcode"])
+  Club.create(name: response_node["label"], website: tjf_club_url(response_node["label"]), location_lat: response_node["lat"], location_lng: response_node["lng"], postcode: response_node["Postcode"])
 end
 
 # Experiments with storing session data:
