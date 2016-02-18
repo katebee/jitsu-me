@@ -3,6 +3,10 @@
 
 require 'open-uri'
 
+# Delete the current rows from the tables:
+Club.delete_all
+Session.delete_all
+
 # Format day
 def day_string_to_index(string)
   case string
@@ -57,21 +61,31 @@ club_location_doc = Nokogiri::XML(File.open("config/club_location.xml")) do |con
 end
 
 london_region_url = "http://www.jitsufoundation.org/Jiujitsu.asp?Page=jujitsu&region=London"
-
 london_region_doc = Nokogiri::HTML(open(london_region_url))
 
-# Delete the current rows from the tables:
-Club.delete_all
-Session.delete_all
-
-# Populate the club table:
-club_location_doc.css("marker").each do |response_node|
-  Club.create(name: response_node["label"], tjfurl: tjf_club_url(response_node["label"]), location_lat: response_node["lat"], location_lng: response_node["lng"], postcode: response_node["Postcode"])
+london_clubs = london_region_doc.css("div.RegionsClubs a.linkaaaaaa").map do |link|
+  "http://www.jitsufoundation.org" + link["href"]
 end
 
-Club.find_each do |club|
-  html_link = club.tjfurl
-  get_club_sessions(html_link, club.id)
-end
+# Populate the club and session tables:
+london_clubs.each do |tjf_club_url|
 
-# Experiments with storing session data:
+  club_page_doc = Nokogiri::HTML(open(tjf_club_url))
+
+  name_node = club_page_doc.at_css("title").to_s
+  club_name = name_node[/(?<=\-\s)(.*)Club/]
+
+  club = Club.create(name: club_name, tjfurl: tjf_club_url)
+
+  titlebox_node = club_page_doc.css("#titlebox2").last
+  strong_node = titlebox_node.css("strong")
+
+  strong_node.each do |session_node|
+    session_node = session_node.to_s
+    day_of_week = session_node[/(?<=<strong>)[a-zA-Z]{3}/]
+    start_time = session_node[/(?<=,\s)\d{2}:\d{2}/]
+    end_time = session_node[/(?<=\-\s)\d{2}:\d{2}/]
+
+    Session.create(title: club.name, club_id: club.id, day_of_week: day_string_to_index(day_of_week), start_time: start_time, end_time: end_time)
+  end
+end
