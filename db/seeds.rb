@@ -6,6 +6,7 @@ require 'open-uri'
 # Delete the current rows from the tables:
 Club.delete_all
 Session.delete_all
+Location.delete_all
 
 # Format day
 def day_string_to_index(string)
@@ -88,4 +89,8 @@ london_clubs.each do |tjf_club_url|
 
     Session.create(title: club.name, club_id: club.id, day_of_week: day_string_to_index(day_of_week), start_time: start_time, end_time: end_time)
   end
+end
+
+club_location_doc.css("marker").each do |response_node|
+  Location.create(name: response_node["label"], location_lat: response_node["lat"], location_lng: response_node["lng"], postcode: response_node["Postcode"])
 end
