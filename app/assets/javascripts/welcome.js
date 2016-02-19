@@ -11,9 +11,9 @@ $(document).ready(function(){
   }).addTo(map);
 
   $(document).ready(function(){
-    $.get("/clubs.json", function(data){
-      data.map(function(club) {
-        L.marker([club.location_lat, club.location_lng]).addTo(map).bindPopup(club.name);
+    $.get("/locations.json", function(data){
+      data.map(function(location) {
+        L.marker([location.location_lat, location.location_lng]).addTo(map).bindPopup(location.name);
       })
     })
   });
