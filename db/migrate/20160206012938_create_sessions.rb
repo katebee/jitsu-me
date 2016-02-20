@@ -5,10 +5,9 @@ class CreateSessions < ActiveRecord::Migration
       t.string :day_of_week
       t.string :start_time
       t.string :end_time
-      t.string :location_lat
-      t.string :location_lng
       t.text :description
       t.references :club, index: true, foreign_key: true
+      t.references :location, index: true, foreign_key: true
 
       t.timestamps null: false
     end

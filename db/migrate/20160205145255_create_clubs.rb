@@ -5,9 +5,6 @@ class CreateClubs < ActiveRecord::Migration
       t.string :website
       t.string :tjfurl
       t.string :contact
-      t.string :location_lat
-      t.string :location_lng
-      t.string :postcode
       t.timestamps null: false
     end
   end

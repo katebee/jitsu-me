@@ -18,11 +18,8 @@ ActiveRecord::Schema.define(version: 20160218165556) do
     t.string   "website"
     t.string   "tjfurl"
     t.string   "contact"
-    t.string   "location_lat"
-    t.string   "location_lng"
-    t.string   "postcode"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "locations", force: :cascade do |t|
@@ -37,14 +34,14 @@ ActiveRecord::Schema.define(version: 20160218165556) do
     t.string   "day_of_week"
     t.string   "start_time"
     t.string   "end_time"
-    t.string   "location_lat"
-    t.string   "location_lng"
     t.text     "description"
     t.integer  "club_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "location_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   add_index "sessions", ["club_id"], name: "index_sessions_on_club_id"
+  add_index "sessions", ["location_id"], name: "index_sessions_on_location_id"
 
 end
