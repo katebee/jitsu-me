@@ -5,11 +5,5 @@
 
 <p>
   <strong>Location:</strong>
-  <%= session.description %>
-</p>
-
-<p>
-  <%= link_to 'Delete', [session.club, session],
-               method: :delete,
-               data: { confirm: 'Are you sure?' } %>
+  <%= session.location.postcode %>
 </p>

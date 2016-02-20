@@ -3,6 +3,7 @@
 // # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).ready(function(){
+
   $('#calendar').fullCalendar({
       defaultDate: moment(),
       header: {
@@ -14,6 +15,15 @@ $(document).ready(function(){
       minTime: "10:00:00",
       maxTime: "25:00:00",
 
-      events: '/events.json'
-  });
+      events: '/events.json',
+
+      eventClick: function(event) {
+        if (event.url) {
+          window.open(event.url);
+          return false;
+        }
+      }
+
+  }); // end of fullCalendar
+
 });
