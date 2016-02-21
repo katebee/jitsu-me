@@ -6,6 +6,8 @@ class EventsController < ApplicationController
   def index
     @events = Event.all
     @sessions = Session.all
+
+    @events_today = Session.where("day_of_week = ? AND start_time > ?", Time.now.wday, Time.now.strftime("%I:%M:%S")).order(:start_time)
   end
 
   # GET /events/1
