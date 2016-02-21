@@ -56,8 +56,26 @@ def get_club_sessions(html_link, club_id)
   end
 end
 
+def seach_session_location(session)
+  @club_location_doc.css("marker").each do |response_node|
+    begin
+      if response_node["label"] == session.title
+        @location = Location.find_or_create_by(postcode: response_node["Postcode"]) do |location|
+          location.name = response_node["label"]
+          location.location_lat = response_node["lat"]
+          location.location_lng = response_node["lng"]
+          location.postcode = response_node["Postcode"]
+        end
+        session.update(location_id: @location.id)
+      end
+    rescue
+      puts 'I am rescued'
+    end
+  end
+end
+
 # Source and store data:
-club_location_doc = Nokogiri::XML(File.open("config/club_location.xml")) do |config|
+@club_location_doc = Nokogiri::XML(File.open("config/club_location.xml")) do |config|
   config.options = Nokogiri::XML::ParseOptions::STRICT | Nokogiri::XML::ParseOptions::NONET
 end
 
@@ -87,10 +105,8 @@ london_clubs.each do |tjf_club_url|
     start_time = session_node[/(?<=,\s)\d{2}:\d{2}/]
     end_time = session_node[/(?<=\-\s)\d{2}:\d{2}/]
 
-    Session.create(title: club.name, club_id: club.id, day_of_week: day_string_to_index(day_of_week), start_time: start_time, end_time: end_time)
-  end
-end
+    session = Session.create(title: club.name, club_id: club.id, day_of_week: day_string_to_index(day_of_week), start_time: start_time, end_time: end_time)
 
-club_location_doc.css("marker").each do |response_node|
-  Location.create(name: response_node["label"], location_lat: response_node["lat"], location_lng: response_node["lng"], postcode: response_node["Postcode"])
+    seach_session_location(session)
+  end
 end

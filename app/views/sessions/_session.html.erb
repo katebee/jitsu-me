@@ -5,5 +5,7 @@
 
 <p>
   <strong>Location:</strong>
-  <%= session.location.postcode %>
+  <%= unless session.location.nil?
+      session.location.postcode
+    end %>
 </p>
