@@ -29,6 +29,7 @@ gem 'leaflet-rails'
 # A man is not dead while his name is still spoken
 gem 'rack-pratchett'
 
+gem 'font-awesome-sass'
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'autoprefixer-rails'
 

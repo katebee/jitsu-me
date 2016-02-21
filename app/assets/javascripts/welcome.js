@@ -1,3 +1,10 @@
+
+$(function(){
+  var spinnerHTML = '&nbsp;&nbsp;<i class="fa fa-spinner fa-spin"></i>',
+    spinnerObjects = $(".has-spinner");
+    spinnerObjects.append(spinnerHTML);
+});
+
 $(document).ready(function(){
 
   var map = L.map('map').setView([51.505, -0.09], 13);
@@ -20,6 +27,7 @@ $(document).ready(function(){
   });
 
   $('#jitsu-me-button').on('click', function(){
+    $(this).addClass('active');
     map.locate({setView: true});
     map.removeLayer(userMarker);
   });
@@ -27,6 +35,7 @@ $(document).ready(function(){
   function onLocationFound(e) {
     userMarker = new L.marker(e.latlng, {draggable: true});
     userMarker.addTo(map);
+    $('#jitsu-me-button').removeClass('active');
   }
 
   function onLocationError(e) {
@@ -37,5 +46,4 @@ $(document).ready(function(){
   map.on('locationfound', onLocationFound);
   map.on('locationerror', onLocationError);
 
-$('#jitsu-me-button')
 });
