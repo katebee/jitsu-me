@@ -4,16 +4,16 @@
   </div><!-- end of calendar column-->
 
   <div class="col-md-4">
-    <h2>Sessions Today</h2>
+    <h2>Upcoming Sessions</h2>
     <br>
-  <% @events_today.each do |session| %>
+  <% @upcoming_events.each do |session| %>
     <tr>
       <h4><%= session.title %></h4>
       <h5><%= session.description %></h5>
       <h5><%= session.start_time %></h5>
       <h5><%= session.end_time %></h5>
       <p>
-        <%= link_to ("https://citymapper.com/directions?endcoord=" + session.location.location_lat + "%2C" + session.location.location_lng), target: '_blank' do %>
+        <%= link_to ("https://citymapper.com/directions?startcoord=51.501806%2C-0.140778&endcoord=" + session.location.location_lat + "%2C" + session.location.location_lng + "&endname=" + URI.escape(session.title)), target: '_blank' do %>
           <%= image_tag("https://static.citymapper.com/img/embed/GetMeThere_Citymapper.png") %>
         <% end %>
       </p>
