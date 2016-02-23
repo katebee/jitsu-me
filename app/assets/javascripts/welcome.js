@@ -1,6 +1,17 @@
+var jitsuIcon = L.AwesomeMarkers.icon({
+    icon: 'star',
+    prefix: 'fa',
+    markerColor: 'lightgray'
+  });
+
+  var userIcon = L.AwesomeMarkers.icon({
+      icon: 'fa-male',
+      prefix: 'fa',
+      markerColor: 'blue'
+    });
 
 $(function(){
-  var spinnerHTML = '&nbsp;&nbsp;<i class="fa fa-spinner fa-spin"></i>',
+  var spinnerHTML = '&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse"></i>',
     spinnerObjects = $(".has-spinner");
     spinnerObjects.append(spinnerHTML);
 });
@@ -11,22 +22,22 @@ function renderMap(map) {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
       '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
       'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-    id: 'mapbox.streets'
+    id: 'mapbox.dark'
   }).addTo(map);
 }
 
 function addClubMarkers(map) {
   $.get("/locations.json", function(data){
     data.map(function(location) {
-      L.marker([location.location_lat, location.location_lng]).addTo(map).bindPopup(location.name);
+      L.marker([location.location_lat, location.location_lng], {icon: jitsuIcon}).addTo(map).bindPopup(location.name);
     });
   });
 }
 
 $(document).ready(function(){
 
-  var map = L.map('map').setView([51.505, -0.09], 13);
-  var userMarker = new L.marker([], {draggable: true});
+  var map = L.map('map').setView([51.515, -0.0895], 14);
+  var userMarker = new L.marker([], {draggable: true, icon: userIcon});
 
   renderMap(map);
   addClubMarkers(map);
@@ -46,7 +57,7 @@ $(document).ready(function(){
   }
 
   function onLocationError(e) {
-    map.setView([51.505, -0.09], 10);
+    map.setView([51.505, -0.09], 12);
     alert(e.message);
   }
 
