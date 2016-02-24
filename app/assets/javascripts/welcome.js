@@ -26,7 +26,12 @@ function renderMap(map) {
   }).addTo(map);
 }
 
-function addClubMarkers(map) {
+function getClubLocations() {
+  // TODO if clubLocations is empty, fetch
+  var clubLocations = $.get("/locations.json");
+}
+
+function addClubMarkers(map, clubLocations) {
   $.get("/locations.json", function(data){
     data.map(function(location) {
       L.marker([location.location_lat, location.location_lng], {icon: jitsuIcon}).addTo(map).bindPopup(location.name);
@@ -34,13 +39,32 @@ function addClubMarkers(map) {
   });
 }
 
+function upcomingSessions() {
+  // TODO
+}
+
+function findNearbySessions() {
+  // TODO
+}
+
+function addUpcomingSessionMarkers(map, userMarker, upcomingSessions) {
+  var userLat = userMarker.lat;
+  var userLng = userMarker.lng;
+  console.log(userMarker);
+  // for club in upcomingSessions, compare clublatlng to userlatlng
+  // var nearestSessions = [] sort by ascending distance from user
+  // there must be a elegant way to compare geolocations....
+  // place markers on the map
+}
+
 $(document).ready(function(){
 
   var map = L.map('map').setView([51.515, -0.0895], 14);
   var userMarker = new L.marker([], {draggable: true, icon: userIcon});
+  var clubLocations = getClubLocations();
 
   renderMap(map);
-  addClubMarkers(map);
+  addClubMarkers(map, clubLocations);
 
   $('#find-me-button').on('click', function(){
     $(this).addClass('active');
@@ -52,6 +76,7 @@ $(document).ready(function(){
 
   $('#jitsu-me-button').on('click', function(){
     $(this).addClass('active');
+    console.log(userMarker);
   });
 
   function onLocationFound(e) {
@@ -64,12 +89,6 @@ $(document).ready(function(){
   function onLocationError(e) {
     map.setView([51.505, -0.09], 12);
     alert(e.message);
-  }
-
-  function findNearbySessions() {
-    var position = userMarker.latlng;
-    console.log(position);
-
   }
 
   map.on('locationfound', onLocationFound);
