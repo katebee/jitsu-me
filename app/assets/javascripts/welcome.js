@@ -42,18 +42,23 @@ $(document).ready(function(){
   renderMap(map);
   addClubMarkers(map);
 
-  $('#jitsu-me-button').on('click', function(){
+  $('#find-me-button').on('click', function(){
     $(this).addClass('active');
-    map.locate({setView: true});
+    map.locate({setView: false});
     if (userMarker) {
       map.removeLayer(userMarker);
     }
   });
 
+  $('#jitsu-me-button').on('click', function(){
+    $(this).addClass('active');
+  });
+
   function onLocationFound(e) {
     userMarker.setLatLng(e.latlng);
     userMarker.addTo(map);
-    $('#jitsu-me-button').removeClass('active');
+    map.panTo(e.latlng);
+    $('#find-me-button').removeClass('active');
   }
 
   function onLocationError(e) {
@@ -61,9 +66,10 @@ $(document).ready(function(){
     alert(e.message);
   }
 
-  function startLocation(marker) {
+  function findNearbySessions() {
     var position = userMarker.latlng;
     console.log(position);
+
   }
 
   map.on('locationfound', onLocationFound);
