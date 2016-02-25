@@ -8,6 +8,35 @@ Club.delete_all
 Session.delete_all
 Location.delete_all
 
+class Scraper
+
+# TODO prep_conf, fetch_data, process_data, scraper_run
+
+  def get_club_sessions(html_link, club_id)
+    club_page_doc = Nokogiri::HTML(open(html_link))
+
+    # Get the name of the club
+    name_node = club_page_doc.at_css("title").to_s
+
+    titlebox_node = club_page_doc.css("#titlebox2").last
+    strong_node = titlebox_node.css("strong")
+
+    strong_node.each do |session_node|
+      session_node = session_node.to_s
+      day_of_week = session_node[/(?<=<strong>)[a-zA-Z]{3}/]
+      start_time = session_node[/(?<=,\s)\d{2}:\d{2}/]
+      end_time = session_node[/(?<=\-\s)\d{2}:\d{2}/]
+      club_name = name_node[/(?<=\-\s)(.*)Club/]
+
+      # Populate the club table:
+      Session.create(title: club_name, club_id: club_id, day_of_week: day_string_to_index(day_of_week), start_time: start_time, end_time: end_time)
+    end
+  end
+
+end
+
+# TODO nokogiri handler: get conf, get data
+
 # Format day
 def day_string_to_index(string)
   case string
@@ -26,7 +55,7 @@ def day_string_to_index(string)
     when 'Sat'
       return 6
     else
-      return 8
+      # TODO add error handling
   end
 end
 
@@ -35,28 +64,7 @@ def tjf_club_url(club_name)
   return basic_url + club_name.gsub!(/\s/,'_')
 end
 
-def get_club_sessions(html_link, club_id)
-  club_page_doc = Nokogiri::HTML(open(html_link))
-
-  # Get the name of the club
-  name_node = club_page_doc.at_css("title").to_s
-
-  titlebox_node = club_page_doc.css("#titlebox2").last
-  strong_node = titlebox_node.css("strong")
-
-  strong_node.each do |session_node|
-    session_node = session_node.to_s
-    day_of_week = session_node[/(?<=<strong>)[a-zA-Z]{3}/]
-    start_time = session_node[/(?<=,\s)\d{2}:\d{2}/]
-    end_time = session_node[/(?<=\-\s)\d{2}:\d{2}/]
-    club_name = name_node[/(?<=\-\s)(.*)Club/]
-
-    # Populate the club table:
-    Session.create(title: club_name, club_id: club_id, day_of_week: day_string_to_index(day_of_week), start_time: start_time, end_time: end_time)
-  end
-end
-
-def seach_session_location(session)
+def search_session_location(session)
   @club_location_doc.css("marker").each do |response_node|
     begin
       if response_node["label"] == session.title
@@ -107,6 +115,6 @@ london_clubs.each do |tjf_club_url|
 
     session = Session.create(title: club.name, club_id: club.id, day_of_week: day_string_to_index(day_of_week), start_time: start_time, end_time: end_time)
 
-    seach_session_location(session)
+    search_session_location(session)
   end
 end
