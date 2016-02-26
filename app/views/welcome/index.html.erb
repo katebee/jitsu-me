@@ -11,6 +11,23 @@
     <br>
     <button id="jitsu-me-button" class="jitsu-button has-spinner">JITSU ME</button>
 
+    <h3>Upcoming Sessions</h3>
+    <br>
+    <% @upcoming_events.each do |session| %>
+    <tr>
+      <h4><%= session.title %></h4>
+      <h5><%= session.description %></h5>
+      <h5><%= session.start_time %></h5>
+      <h5><%= session.end_time %></h5>
+      <p>
+        <%= link_to ("https://citymapper.com/directions?startcoord=51.501806%2C-0.140778&endcoord=#{session.location.location_lat}%2C#{session.location.location_lng}&endname=#{URI.escape(session.title)}"), target: '_blank' do %>
+          <%= image_tag("https://static.citymapper.com/img/embed/GetMeThere_Citymapper.png") %>
+        <% end %>
+      </p>
+      <br>
+    </tr>
+  <% end %>
+
   </div><!-- end of input column-->
 
   <div id="map-container" class="col-md-9">

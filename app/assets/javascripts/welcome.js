@@ -1,14 +1,14 @@
-var jitsuIcon = L.AwesomeMarkers.icon({
+const jitsuIcon = L.AwesomeMarkers.icon({
     icon: 'star',
     prefix: 'fa',
     markerColor: 'lightgray'
   });
 
-  var userIcon = L.AwesomeMarkers.icon({
-      icon: 'fa-male',
-      prefix: 'fa',
-      markerColor: 'blue'
-    });
+const userIcon = L.AwesomeMarkers.icon({
+    icon: 'fa-male',
+    prefix: 'fa',
+    markerColor: 'blue'
+  });
 
 $(function(){
   var spinnerHTML = '&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse"></i>',
@@ -28,7 +28,7 @@ function renderMap(map) {
 
 function getClubLocations() {
   // TODO if clubLocations is empty, fetch
-  var clubLocations = $.get("/locations.json");
+  clubLocations = $.get("/locations.json");
 }
 
 function addClubMarkers(map, clubLocations) {
@@ -39,6 +39,10 @@ function addClubMarkers(map, clubLocations) {
   });
 }
 
+function removeClubMarkers() {
+  // TODO
+}
+
 function upcomingSessions() {
   // TODO
 }
@@ -47,10 +51,10 @@ function findNearbySessions() {
   // TODO
 }
 
-function addUpcomingSessionMarkers(map, userMarker, upcomingSessions) {
-  var userLat = userMarker.lat;
-  var userLng = userMarker.lng;
-  console.log(userMarker);
+function upcomingSessionMarkers(map, userMarker) {
+  var userLat = userMarker.LatLng.lat;
+  var userLng = userMarker.LatLng.lng;
+  console.log(userLat);
   // for club in upcomingSessions, compare clublatlng to userlatlng
   // var nearestSessions = [] sort by ascending distance from user
   // there must be a elegant way to compare geolocations....
@@ -59,9 +63,10 @@ function addUpcomingSessionMarkers(map, userMarker, upcomingSessions) {
 
 $(document).ready(function(){
 
-  var map = L.map('map').setView([51.515, -0.0895], 14);
-  var userMarker = new L.marker([], {draggable: true, icon: userIcon});
-  var clubLocations = getClubLocations();
+  const map = L.map('map').setView([51.515, -0.0895], 14);
+  const userMarker = new L.marker([], {draggable: true, icon: userIcon});
+  const clubLocations = getClubLocations();
+  const userPosition = {lat: "", lng: ""};
 
   renderMap(map);
   addClubMarkers(map, clubLocations);
@@ -77,9 +82,13 @@ $(document).ready(function(){
   $('#jitsu-me-button').on('click', function(){
     $(this).addClass('active');
     console.log(userMarker);
+    console.log(userPosition);
+    $(this).removeClass('active');
   });
 
   function onLocationFound(e) {
+    userPosition.lat = e.latlng.lat;
+    userPosition.lng = e.latlng.lng;
     userMarker.setLatLng(e.latlng);
     userMarker.addTo(map);
     map.panTo(e.latlng);
