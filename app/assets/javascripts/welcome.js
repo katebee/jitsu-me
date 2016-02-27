@@ -39,6 +39,30 @@ function addClubMarkers(map, clubLocations) {
   });
 }
 
+function storageAvailable(type) {
+	try {
+		var storage = window[type],
+			x = '__storage_test__';
+		storage.setItem(x, x);
+		storage.removeItem(x);
+		return true;
+	}
+	catch(e) {
+		return false;
+	}
+}
+
+function storeUserLocation(lat, lng) {
+  if (storageAvailable('localStorage')) {
+  	localStorage.setItem("userLat", lat);
+    localStorage.setItem("userLng", lng);
+  }
+  else {
+  	// no localStorage, do something else
+  }
+}
+
+
 function removeClubMarkers() {
   // TODO
 }
@@ -66,7 +90,6 @@ $(document).ready(function(){
   const map = L.map('map').setView([51.515, -0.0895], 14);
   const userMarker = new L.marker([], {draggable: true, icon: userIcon});
   const clubLocations = getClubLocations();
-  const userPosition = {lat: "", lng: ""};
 
   renderMap(map);
   addClubMarkers(map, clubLocations);
@@ -82,13 +105,13 @@ $(document).ready(function(){
   $('#jitsu-me-button').on('click', function(){
     $(this).addClass('active');
     console.log(userMarker);
-    console.log(userPosition);
+    console.log(localStorage.getItem("userLat"));
+    console.log(localStorage.getItem("userLng"));
     $(this).removeClass('active');
   });
 
   function onLocationFound(e) {
-    userPosition.lat = e.latlng.lat;
-    userPosition.lng = e.latlng.lng;
+    storeUserLocation(e.latlng.lat, e.latlng.lng);
     userMarker.setLatLng(e.latlng);
     userMarker.addTo(map);
     map.panTo(e.latlng);
