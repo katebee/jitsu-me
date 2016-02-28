@@ -35,8 +35,13 @@ body {
   color: $colour-white;
   margin: 20px;
   padding: 10px 25px 10px 25px;
-  border: 3px solid rgb(52,52,52);
+  border: 2px solid rgb(52,52,52);
   background-color: $colour-grey;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+  border: 2px solid rgb(88,88,88);
+  background-color: rgb(78,78,78);
 }
 
 .navbar-inverse .navbar-brand {
@@ -49,7 +54,8 @@ body {
 }
 
 .jitsu-button {
-  border: 2px solid rgba(255, 255, 255, 0.4);
+  border: 2px solid rgba(52, 52, 52, 1);
+  background: $colour-grey;
   padding: 0px;
   display: inline-block;
   margin: 10px;
@@ -65,7 +71,7 @@ body {
 
 .jitsu-button:hover {
   border: 2px solid white;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(88, 88, 88, 1);
 }
 
 

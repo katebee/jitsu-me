@@ -1,19 +1,19 @@
 const jitsuIcon = L.AwesomeMarkers.icon({
-    icon: 'star',
-    prefix: 'fa',
-    markerColor: 'lightgray'
-  });
+  icon: 'star',
+  prefix: 'fa',
+  markerColor: 'lightgray'
+});
 
 const userIcon = L.AwesomeMarkers.icon({
-    icon: 'fa-male',
-    prefix: 'fa',
-    markerColor: 'blue'
-  });
+  icon: 'fa-male',
+  prefix: 'fa',
+  markerColor: 'blue'
+});
 
 $(function(){
-  var spinnerHTML = '&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse"></i>',
-    spinnerObjects = $(".has-spinner");
-    spinnerObjects.append(spinnerHTML);
+  var spinnerHTML = '&nbsp;&nbsp;<i class="fa fa-spinner fa-pulse"></i>';
+  spinnerObjects = $(".has-spinner");
+  spinnerObjects.append(spinnerHTML);
 });
 
 function renderMap(map) {
