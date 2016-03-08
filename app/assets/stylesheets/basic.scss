@@ -1,0 +1,24 @@
+$font-stack: 'Lato', helvetica, sans-serif;
+
+$colour-red: rgb(132,7,5);
+$colour-grey: rgb(68,68,68);
+$colour-white: rgb(252,252,252);
+
+body {
+  font: 100% $font-stack;
+  color: $colour-grey;
+}
+
+a {
+  color: $colour-white;
+
+  &:visited {
+    color: $colour-white;
+  }
+
+  &:hover {
+    color: $colour-white;
+    background-color: rgba(252,252,252, 0);
+    text-decoration: none
+  }
+}

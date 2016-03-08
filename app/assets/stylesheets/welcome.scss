@@ -2,57 +2,6 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-$font-stack: 'Lato', helvetica, sans-serif;
-
-$colour-red: rgb(132,7,5);
-$colour-grey: rgb(68,68,68);
-$colour-white: rgb(252,252,252);
-
-body {
-  font: 100% $font-stack;
-  color: $colour-grey;
-}
-
-.navbar {
-  background-color: $colour-red;
-  border-bottom-width: 5px;
-  border-bottom: thick solid rgb(102,7,5);
-  height: 7em;
-  margin: 0;
-  z-index: 500;
-}
-
-.nav {
-  color: $colour-white;
-  font-size: 1.2em;
-  position: absolute;
-  top: 50%;
-  right: 6em;
-  transform: translateY(-50%);
-}
-
-.navbar-inverse .navbar-nav > li > a {
-  color: $colour-white;
-  margin: 20px;
-  padding: 10px 25px 10px 25px;
-  border: 2px solid rgb(52,52,52);
-  background-color: $colour-grey;
-}
-
-.navbar-inverse .navbar-nav > li > a:hover {
-  border: 2px solid rgb(88,88,88);
-  background-color: rgb(78,78,78);
-}
-
-.navbar-inverse .navbar-brand {
-  color: $colour-white;
-  font-size: 3em;
-  font-weight: 700;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
 .jitsu-button {
   border: 2px solid rgba(52, 52, 52, 1);
   background: $colour-grey;
@@ -74,6 +23,24 @@ body {
   background: rgba(88, 88, 88, 1);
 }
 
+.has-spinner .fa-spinner {
+  opacity: 0;
+  max-width: 0;
+
+  -webkit-transition: opacity 0.25s, max-width 0.45s;
+  -moz-transition: opacity 0.25s, max-width 0.45s;
+  -o-transition: opacity 0.25s, max-width 0.45s;
+  transition: opacity 0.25s, max-width 0.45s; /* Duration fixed since we animate additional hidden width */
+}
+
+.has-spinner.active {
+  cursor:progress;
+}
+
+.has-spinner.active .fa-spinner {
+  opacity: 1;
+  max-width: 50px; /* More than it will ever come, notice that this affects on animation duration */
+}
 
 #map-container {
   padding: 0;
