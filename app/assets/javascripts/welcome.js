@@ -34,8 +34,33 @@ function getClubLocations() {
 function addClubMarkers(map, clubLocations) {
   $.get("/locations.json", function(data){
     data.map(function(location) {
-      L.marker([location.location_lat, location.location_lng], {icon: jitsuIcon}).addTo(map).bindPopup(location.name);
+      L.marker(
+        [location.location_lat, location.location_lng],
+        {icon: jitsuIcon}).addTo(map).bindPopup(location.name);
     });
+  });
+}
+
+function updateCitymapperLinks(lat, lng) {
+  var userLatitude, userLongitude;
+  if (lat !== undefined && lng !== undefined) {
+    userLatitude = lat;
+    userLongitude = lng;
+  }
+  else if (storageAvailable('localStorage')) {
+    userLatitude = localStorage.getItem("userLat");
+    userLongitude = localStorage.getItem("userLng");
+  }
+  else if (userMarker) {
+    userLatitude = userMarker.LatLng.lat;
+    userLongitude = userMarker.LatLng.lng;
+  }
+  else {
+    userLatitude = '51.501806';
+    userLongitude = '-0.140778';
+  }
+  $('.js-citymapper-link').attr('href', function(index, href) {
+    return href.split('&startcoord=')[0] + '&startcoord=' + userLatitude + '%2C'+ userLongitude;
   });
 }
 
@@ -88,7 +113,6 @@ function findNearbySessions() {
 function upcomingSessionMarkers(map, userMarker) {
   var userLat = userMarker.LatLng.lat;
   var userLng = userMarker.LatLng.lng;
-  console.log(userLat);
   // for club in upcomingSessions, compare clublatlng to userlatlng
   // var nearestSessions = [] sort by ascending distance from user
   // there must be a elegant way to compare geolocations....
@@ -104,12 +128,14 @@ $(document).ready(function(){
   renderMap(map);
   addClubMarkers(map, clubLocations);
   addUserMarker(userMarker, map);
+  updateCitymapperLinks();
 
   userMarker.on('dragend', function(event){
     var coords = event.target.getLatLng();
     console.log(coords);
     storeUserLocation(coords.lat, coords.lng);
     userMarker.setLatLng(coords);
+    updateCitymapperLinks(coords.lat, coords.lng);
   });
 
   $('#find-me-button').on('click', function(){
@@ -122,23 +148,23 @@ $(document).ready(function(){
 
   $('#jitsu-me-button').on('click', function(){
     $(this).addClass('active');
-    console.log(userMarker);
     console.log(localStorage.getItem("userLat"));
     console.log(localStorage.getItem("userLng"));
-    $(this).removeClass('active');
+    // $(this).removeClass('active');
   });
 
-  function onLocationFound(e) {
-    storeUserLocation(e.latlng.lat, e.latlng.lng);
-    userMarker.setLatLng(e.latlng);
+  function onLocationFound(event) {
+    userMarker.setLatLng(event.latlng);
     userMarker.addTo(map);
-    map.panTo(e.latlng);
+    map.panTo(event.latlng);
+    updateCitymapperLinks(event.latlng.lat, event.latlng.lng);
+    storeUserLocation(event.latlng.lat, event.latlng.lng);
     $('#find-me-button').removeClass('active');
   }
 
-  function onLocationError(e) {
+  function onLocationError(error) {
     map.setView([51.505, -0.09], 12);
-    alert(e.message);
+    alert(error.message);
   }
 
   map.on('locationfound', onLocationFound);

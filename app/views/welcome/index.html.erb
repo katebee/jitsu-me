@@ -25,7 +25,7 @@
         <h5><%= session.start_time %></h5>
         <h5><%= session.end_time %></h5>
         <p>
-          <%= link_to ("https://citymapper.com/directions?startcoord=51.501806%2C-0.140778&endcoord=#{session.location.location_lat}%2C#{session.location.location_lng}&endname=#{URI.escape(session.title)}"), target: '_blank' do %>
+          <%= link_to ("https://citymapper.com/directions?endcoord=#{session.location.location_lat}%2C#{session.location.location_lng}&endname=#{URI.escape(session.title)}"), target: '_blank', class: "js-citymapper-link" do %>
             <%= image_tag("https://static.citymapper.com/img/embed/GetMeThere_Citymapper.png") %>
           <% end %>
         </p>
