@@ -62,6 +62,16 @@ function storeUserLocation(lat, lng) {
   }
 }
 
+function addUserMarker(marker, map) {
+  if (storageAvailable('localStorage')) {
+    var coords = {
+      lat: localStorage.getItem("userLat"),
+      lng: localStorage.getItem("userLng")
+    };
+    marker.setLatLng(coords);
+    marker.addTo(map);
+  }
+}
 
 function removeClubMarkers() {
   // TODO
@@ -93,6 +103,14 @@ $(document).ready(function(){
 
   renderMap(map);
   addClubMarkers(map, clubLocations);
+  addUserMarker(userMarker, map);
+
+  userMarker.on('dragend', function(event){
+    var coords = event.target.getLatLng();
+    console.log(coords);
+    storeUserLocation(coords.lat, coords.lng);
+    userMarker.setLatLng(coords);
+  });
 
   $('#find-me-button').on('click', function(){
     $(this).addClass('active');
