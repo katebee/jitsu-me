@@ -15,6 +15,10 @@
   top: 50%;
   padding-left: 0.67em;
   transform: translateY(-50%);
+
+  &:visited, &:active, &:hover {
+  color: $colour-white;
+  }
 }
 
 .navbar {

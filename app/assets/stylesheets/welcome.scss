@@ -29,14 +29,14 @@
 }
 
 .section__content {
+  pointer-events: none;
   position: absolute;
   margin: 0 auto;
   left: 0;
   top: 20%;
   width: 100%;
-  height: 100%;
+  // height: 100%;
   text-align: center;
-
   z-index: 100;
 }
 

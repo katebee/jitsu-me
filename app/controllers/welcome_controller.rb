@@ -6,8 +6,8 @@ class WelcomeController < ApplicationController
 
   private
     def upcoming_events
-      events_today = Session.where("day_of_week = ? AND start_time > ?", Time.now.wday, Time.now.strftime("%H:%M:%S")).order(:start_time)
-      events_tomorrow = Session.where("day_of_week = ?", tomorrow_modifier).order(:start_time)
+      events_today = Session.where('day_of_week = ? AND start_time > ?', Time.now.wday, Time.now.strftime('%H:%M:%S')).order(:start_time)
+      events_tomorrow = Session.where('day_of_week = ?', tomorrow_modifier).order(:start_time)
       upcoming_events = events_today + events_tomorrow
     end
 
