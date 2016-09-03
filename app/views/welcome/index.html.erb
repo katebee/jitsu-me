@@ -1,3 +1,5 @@
+<div class="container-fluid">
+
 <div class="row">
 
   <div id="map-container" class="map-container">
@@ -16,10 +18,17 @@
 
   </div><!-- end of map-->
 
-            <h3>Upcoming Sessions</h3>
-            <br>
-      <% @upcoming_events.each do |session| %>
-      <tr>
+</div><!-- end of row-->
+
+</div><!-- end container-fluid -->
+
+<div class="container-fluid upcoming-sessions">
+  <h3 class="upcoming-sessions__heading">Upcoming Sessions</h3>
+
+<div class="">
+  <% @upcoming_events.each do |session| %>
+    <div class="upcoming-sessions__cards">
+      <div>
         <h4><%= session.title %></h4>
         <h5><%= session.description %></h5>
         <h5><%= session.start_time %></h5>
@@ -30,8 +39,8 @@
           <% end %>
         </p>
         <br>
-      </tr>
-    <% end %>
-
-
-</div><!-- end of row-->
+      </div>
+    </div>
+  <% end %>
+</div>
+</div>

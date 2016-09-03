@@ -40,10 +40,33 @@
   z-index: 100;
 }
 
+
+.upcoming-sessions__heading {
+  color: $colour-white;
+  background-color: $colour-red;
+  font-weight: 600;
+  margin: 0 -15px;
+  padding: 10px 15px;
+  width: initial;
+  border-bottom-width: 5px;
+  border-bottom: thick solid #660705;
+}
+
+.upcoming-sessions {
+  color: $colour-grey;
+  background-color: $colour-white;
+
+}
+
+.upcoming-sessions__cards {
+  float: left;
+  width: 33%;
+}
+
 .map-container {
   padding: 0;
   margin: 0;
-  height: 100vh;
+  height: 80vh;
   position: relative;
 
   #map {
